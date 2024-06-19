@@ -3,8 +3,9 @@ export type Empty = (value: unknown) => boolean
 // ==== Regex ====
 const alphaRegex = /^[A-Za-z]+$/
 const ipv4Regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/
-const urlRegex = /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const urlRegex =
+  /(((https?:\/\/)((?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+(_|-)?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+(_|-)?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?))\/?)([^\s"')\]]*)?/
+const emailRegex = /^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+){0,127}(?:\.\w{2,24}))+$/
 const alphanumericRegex = /^[A-Za-z0-9]+$/
 const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 const uuidv3Regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-3[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
@@ -16,13 +17,13 @@ const ipv6Regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/
 
 export const isArray: Empty = (arg) => Array.isArray(arg)
 
-export const isArrayOfNumbers: Empty = (arg) => isArray(arg) && (arg as []).every((item: unknown) => isNumber(item))
+export const isArrayOfNumbers: Empty = (arg) => Array.isArray(arg) && isArrayNotEmpty(arg) && arg.every((item: unknown) => isNumber(item))
 
-export const isArrayOfStrings: Empty = (arg) => isArray(arg) && (arg as []).every((item: unknown) => isString(item))
+export const isArrayOfStrings: Empty = (arg) => Array.isArray(arg) && isArrayNotEmpty(arg) && arg.every((item: unknown) => isString(item))
 
-export const isArrayOfObjects: Empty = (arg) => isArray(arg) && (arg as []).every((item: unknown) => isObject(item))
+export const isArrayOfObjects: Empty = (arg) => Array.isArray(arg) && isArrayNotEmpty(arg) && arg.every((item: unknown) => isObject(item))
 
-export const isArrayOfBooleans: Empty = (arg) => isArray(arg) && (arg as []).every((item: unknown) => isBoolean(item))
+export const isArrayOfBooleans: Empty = (arg) => Array.isArray(arg) && isArrayNotEmpty(arg) && arg.every((item: unknown) => isBoolean(item))
 
 export const isArrayNotEmpty: Empty = (arg) => Array.isArray(arg) && arg.length > 0
 
