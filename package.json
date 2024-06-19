@@ -4,6 +4,10 @@
   "description": "",
   "keywords": [],
   "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nwl-x/checker-js.git"
+  },
   "license": "ISC",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
