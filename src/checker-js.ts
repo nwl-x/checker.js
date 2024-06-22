@@ -1,6 +1,7 @@
 export type Empty = (value: unknown) => boolean
 
 // ==== Regex ====
+
 const alphaRegex = /^[A-Za-z]+$/
 const ipv4Regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/
 const urlRegex =
