@@ -10,6 +10,6 @@ module.exports = {
       extends: ['plugin:@typescript-eslint/recommended', 'plugin:@typescript-eslint/recommended-requiring-type-checking']
     }
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', '__tests__'],
   parser: '@typescript-eslint/parser'
 }
