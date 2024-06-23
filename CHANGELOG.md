@@ -1,5 +1,11 @@
 # @nawael/checker-js
 
+## 1.0.6
+
+### Patch Changes
+
+- 9f8ee00: Add eslint config
+
 ## 1.0.5
 
 ### Patch Changes
