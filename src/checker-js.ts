@@ -14,6 +14,10 @@ const uuidv4Regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9
 const uuidv5Regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-5[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 const ipv6Regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/
 
+// ==== Type Guards ====
+
+export const hasToStringTag = (value: unknown): value is { [Symbol.toStringTag]: string } => typeof value === 'function' && Symbol.toStringTag in value
+
 // ==== Array checker ====
 
 export const isArray: Empty = (arg) => Array.isArray(arg)
@@ -34,7 +38,7 @@ export const isArrayOrNull: Empty = (arg) => isArray(arg) || isNull(arg)
 
 export const isObject: Empty = (arg) => typeof arg === 'object' && !isNull(arg) && !isArray(arg)
 
-export const isObjectNotEmpty: Empty = (arg) => isObject(arg) && !isUndefined(arg) && Object.keys(arg as {}).length > 0
+export const isObjectNotEmpty: Empty = (arg) => isObject(arg) && !isUndefined(arg) && Object.keys(arg as object).length > 0
 
 export const isObjectOrNull: Empty = (arg) => isObject(arg) || isNull(arg)
 
@@ -82,9 +86,9 @@ export const isPendingPromise: Empty = (arg) => isPromise(arg) && !isFulfilledPr
 
 export const isFunction: Empty = (arg) => typeof arg === 'function'
 
-export const isAsyncFunction = (arg: { [x: string]: string }) => typeof arg === 'function' && arg[Symbol.toStringTag] === 'AsyncFunction'
+export const isAsyncFunction: Empty = (arg) => hasToStringTag(arg) && arg[Symbol.toStringTag] === 'AsyncFunction'
 
-export const isGeneratorFunction = (arg: { [x: string]: string }) => typeof arg === 'function' && arg[Symbol.toStringTag] === 'GeneratorFunction'
+export const isGeneratorFunction: Empty = (arg) => hasToStringTag(arg) && arg[Symbol.toStringTag] === 'GeneratorFunction'
 
 // ==== IP checker ====
 
