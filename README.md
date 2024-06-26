@@ -9,11 +9,11 @@ A set of utilities to check any type of values
 ![NPM Version](https://img.shields.io/npm/v/%40nawael%2Fchecker-js)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/%40nawael%2Fchecker-js)
 
-![npm bundle size](./checker-banner.png)
+![npm bundle size](https://raw.githubusercontent.com/nwl-x/checker-js/main/checker-banner.png)
 
 ## Installation
 
-```bash
+```sh
 npm install @nawael/checker-js
 ```
 
