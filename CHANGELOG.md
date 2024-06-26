@@ -1,5 +1,11 @@
 # @nawael/checker-js
 
+## 1.1.1
+
+### Patch Changes
+
+- bd98021: Awesome banner just for fun
+
 ## 1.1.0
 
 ### Minor Changes
