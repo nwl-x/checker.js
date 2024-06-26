@@ -2,25 +2,32 @@ export type Empty = (value: unknown) => boolean
 
 // ==== Regex ====
 
-const alphaRegex = /^[A-Za-z]+$/
-const ipv4Regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/
-const urlRegex =
-  /(((https?:\/\/)((?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+(_|-)?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+(_|-)?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?))\/?)([^\s"')\]]*)?/
-const emailRegex = /^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+){0,127}(?:\.\w{2,24}))+$/
-const alphanumericRegex = /^[A-Za-z0-9]+$/
-const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
-const uuidv3Regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-3[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
-const uuidv4Regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
-const uuidv5Regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-5[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
-const ipv6Regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/
+export const alphaRegex = /^[A-Za-z]+$/
+export const alphanumericRegex = /^[A-Za-z0-9]+$/
+
+export const ipv4Regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/
+export const ipv6Regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/
+
+export const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
+export const uuidv3Regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-3[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
+export const uuidv4Regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
+export const uuidv5Regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-5[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
+
+export const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+export const urlRegex =
+  /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
 
 // ==== Type Guards ====
 
-export const hasToStringTag = (value: unknown): value is { [Symbol.toStringTag]: string } => typeof value === 'function' && Symbol.toStringTag in value
+export const hasToStringTag = (arg: unknown): arg is { [Symbol.toStringTag]: string } => typeof arg === 'function' && Symbol.toStringTag in arg
+
+export const getType = (arg: unknown): string => Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
 
 // ==== Array checker ====
 
 export const isArray: Empty = (arg) => Array.isArray(arg)
+
+export const isArrayOrNull: Empty = (arg) => isArray(arg) || isNull(arg)
 
 export const isArrayOfNumbers: Empty = (arg) => Array.isArray(arg) && isArrayNotEmpty(arg) && arg.every((item: unknown) => isNumber(item))
 
@@ -32,15 +39,13 @@ export const isArrayOfBooleans: Empty = (arg) => Array.isArray(arg) && isArrayNo
 
 export const isArrayNotEmpty: Empty = (arg) => Array.isArray(arg) && arg.length > 0
 
-export const isArrayOrNull: Empty = (arg) => isArray(arg) || isNull(arg)
-
 // ==== Object checker ====
 
 export const isObject: Empty = (arg) => typeof arg === 'object' && !isNull(arg) && !isArray(arg)
 
-export const isObjectNotEmpty: Empty = (arg) => isObject(arg) && !isUndefined(arg) && Object.keys(arg as object).length > 0
-
 export const isObjectOrNull: Empty = (arg) => isObject(arg) || isNull(arg)
+
+export const isObjectNotEmpty: Empty = (arg) => isObject(arg) && !isUndefined(arg) && Object.keys(arg as object).length > 0
 
 // ==== Primitive checker ====
 
@@ -57,6 +62,8 @@ export const isNull: Empty = (arg) => typeof arg === 'object' && arg === null
 export const isSymbol: Empty = (arg) => typeof arg === 'symbol'
 
 export const isBigInt: Empty = (arg) => typeof arg === 'bigint'
+
+export const isPrimitive: Empty = (arg) => isNumber(arg) || isString(arg) || isBoolean(arg) || isUndefined(arg) || isNull(arg) || isSymbol(arg)
 
 // ==== Primitive mixins checker ====
 
@@ -76,11 +83,11 @@ export const isNegativeNumber: Empty = (arg) => isNumber(arg) && (arg as number)
 
 export const isPromise: Empty = (arg) => arg instanceof Promise
 
-export const isFulfilledPromise: Empty = (arg) => arg instanceof Promise && typeof arg.then === 'function'
+export const isFullfilledPromise: Empty = (arg) => arg instanceof Promise && typeof arg.then === 'function'
 
 export const isRejectedPromise: Empty = (arg) => arg instanceof Promise && typeof arg.catch === 'function'
 
-export const isPendingPromise: Empty = (arg) => isPromise(arg) && !isFulfilledPromise(arg) && !isRejectedPromise(arg)
+export const isPendingPromise: Empty = (arg) => isPromise(arg) && !isFullfilledPromise(arg) && !isRejectedPromise(arg)
 
 // ==== Function checker ====
 
@@ -112,10 +119,26 @@ export const isAlpha: Empty = (arg) => isString(arg) && alphaRegex.test(arg as s
 
 export const isAlphanumeric: Empty = (arg) => isString(arg) && alphanumericRegex.test(arg as string)
 
-export const isDate: Empty = (arg) => arg instanceof Date
+export const isDate: Empty = (arg) => arg instanceof Date && !isNaN(arg.valueOf())
 
-// ==== Plop checker ====
+export const isRegExp: Empty = (arg) => arg instanceof RegExp
+
+export const isMap: Empty = (arg) => arg instanceof Map
+
+export const isSet: Empty = (arg) => arg instanceof Set
+
+export const isError: Empty = (arg) => arg instanceof Error
+
+export const isNaNValue: Empty = (arg) => typeof arg === 'number' && isNaN(arg)
+
+export const isInfinite: Empty = (arg) => arg === Infinity || arg === -Infinity
+
+export const isOdd: Empty = (arg) => typeof arg === 'number' && Math.abs(arg % 2) === 1
+
+export const isEven: Empty = (arg) => typeof arg === 'number' && Math.abs(arg % 2) === 0
 
 export const isEmail: Empty = (arg) => isString(arg) && emailRegex.test(arg as string)
 
 export const isUrl: Empty = (arg) => isString(arg) && urlRegex.test(arg as string)
+
+export const isFalsy: Empty = (arg) => !arg

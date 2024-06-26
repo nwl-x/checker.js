@@ -1,11 +1,11 @@
 import {
   isArray,
+  isArrayOrNull,
   isArrayOfNumbers,
   isArrayOfStrings,
   isArrayOfObjects,
   isArrayOfBooleans,
   isArrayNotEmpty,
-  isArrayOrNull,
   isObject,
   isObjectNotEmpty,
   isObjectOrNull,
@@ -16,12 +16,13 @@ import {
   isNull,
   isSymbol,
   isBigInt,
+  isPrimitive,
   isBooleanOrNull,
   isStringOrNull,
   isStringNotEmpty,
   isNumberOrNull,
-  isNegativeNumber,
   isPositiveNumber,
+  isNegativeNumber,
   isPromise,
   isFunction,
   isAsyncFunction,
@@ -35,8 +36,17 @@ import {
   isAlpha,
   isAlphanumeric,
   isDate,
+  isRegExp,
+  isMap,
+  isSet,
+  isError,
+  isNaNValue,
+  isInfinite,
+  isOdd,
+  isEven,
   isEmail,
-  isUrl
+  isUrl,
+  isFalsy
 } from '../src/index'
 
 describe('isArray', () => {
@@ -57,6 +67,26 @@ describe('isArray', () => {
     ${[]}         | ${true}
     ${['x']}      | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isArray(arg)).toBe(expected))
+})
+
+describe('isArrayOrNull', () => {
+  test.each`
+    arg           | expected
+    ${false}      | ${false}
+    ${undefined}  | ${false}
+    ${'string'}   | ${false}
+    ${''}         | ${false}
+    ${12345}      | ${false}
+    ${-12345}     | ${false}
+    ${Infinity}   | ${false}
+    ${-Infinity}  | ${false}
+    ${NaN}        | ${false}
+    ${{}}         | ${false}
+    ${{ x: 'x' }} | ${false}
+    ${[]}         | ${true}
+    ${['x']}      | ${true}
+    ${null}       | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isArrayOrNull(arg)).toBe(expected))
 })
 
 describe('isArrayOfNumbers', () => {
@@ -166,26 +196,6 @@ describe('isArrayNotEmpty', () => {
     ${{ x: 'x' }} | ${false}
     ${['x']}      | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isArrayNotEmpty(arg)).toBe(expected))
-})
-
-describe('isArrayOrNull', () => {
-  test.each`
-    arg           | expected
-    ${false}      | ${false}
-    ${undefined}  | ${false}
-    ${'string'}   | ${false}
-    ${''}         | ${false}
-    ${12345}      | ${false}
-    ${-12345}     | ${false}
-    ${Infinity}   | ${false}
-    ${-Infinity}  | ${false}
-    ${NaN}        | ${false}
-    ${{}}         | ${false}
-    ${{ x: 'x' }} | ${false}
-    ${[]}         | ${true}
-    ${['x']}      | ${true}
-    ${null}       | ${true}
-  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isArrayOrNull(arg)).toBe(expected))
 })
 
 describe('isObject', () => {
@@ -388,6 +398,27 @@ describe('isBigInt', () => {
     ${{ x: 'x' }} | ${false}
     ${10n}        | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isBigInt(arg)).toBe(expected))
+})
+
+describe('isPrimitive', () => {
+  test.each`
+    arg           | expected
+    ${[]}         | ${false}
+    ${['x']}      | ${false}
+    ${{}}         | ${false}
+    ${{ x: 'x' }} | ${false}
+    ${10n}        | ${false}
+    ${null}       | ${true}
+    ${false}      | ${true}
+    ${undefined}  | ${true}
+    ${'string'}   | ${true}
+    ${''}         | ${true}
+    ${12345}      | ${true}
+    ${-12345}     | ${true}
+    ${Infinity}   | ${true}
+    ${-Infinity}  | ${true}
+    ${NaN}        | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isPrimitive(arg)).toBe(expected))
 })
 
 describe('isBooleanOrNull', () => {
@@ -802,6 +833,181 @@ describe('isDate', () => {
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isDate(arg)).toBe(expected))
 })
 
+describe('isRegExp', () => {
+  test.each`
+    arg                 | expected
+    ${null}             | ${false}
+    ${false}            | ${false}
+    ${undefined}        | ${false}
+    ${'string'}         | ${false}
+    ${''}               | ${false}
+    ${'01/01/1900'}     | ${false}
+    ${12345}            | ${false}
+    ${-12345}           | ${false}
+    ${Infinity}         | ${false}
+    ${-Infinity}        | ${false}
+    ${NaN}              | ${false}
+    ${[]}               | ${false}
+    ${['x']}            | ${false}
+    ${{}}               | ${false}
+    ${{ x: 'x' }}       | ${false}
+    ${/$/}              | ${true}
+    ${new RegExp(/^$/)} | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isRegExp(arg)).toBe(expected))
+})
+
+describe('isMap', () => {
+  test.each`
+    arg             | expected
+    ${null}         | ${false}
+    ${false}        | ${false}
+    ${undefined}    | ${false}
+    ${'string'}     | ${false}
+    ${''}           | ${false}
+    ${'01/01/1900'} | ${false}
+    ${12345}        | ${false}
+    ${-12345}       | ${false}
+    ${Infinity}     | ${false}
+    ${-Infinity}    | ${false}
+    ${NaN}          | ${false}
+    ${[]}           | ${false}
+    ${['x']}        | ${false}
+    ${{}}           | ${false}
+    ${{ x: 'x' }}   | ${false}
+    ${new Map()}    | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isMap(arg)).toBe(expected))
+})
+
+describe('isSet', () => {
+  test.each`
+    arg             | expected
+    ${null}         | ${false}
+    ${false}        | ${false}
+    ${undefined}    | ${false}
+    ${'string'}     | ${false}
+    ${''}           | ${false}
+    ${'01/01/1900'} | ${false}
+    ${12345}        | ${false}
+    ${-12345}       | ${false}
+    ${Infinity}     | ${false}
+    ${-Infinity}    | ${false}
+    ${NaN}          | ${false}
+    ${[]}           | ${false}
+    ${['x']}        | ${false}
+    ${{}}           | ${false}
+    ${{ x: 'x' }}   | ${false}
+    ${new Set()}    | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isSet(arg)).toBe(expected))
+})
+
+describe('isError', () => {
+  test.each`
+    arg             | expected
+    ${null}         | ${false}
+    ${false}        | ${false}
+    ${undefined}    | ${false}
+    ${'string'}     | ${false}
+    ${''}           | ${false}
+    ${'01/01/1900'} | ${false}
+    ${12345}        | ${false}
+    ${-12345}       | ${false}
+    ${Infinity}     | ${false}
+    ${-Infinity}    | ${false}
+    ${NaN}          | ${false}
+    ${[]}           | ${false}
+    ${['x']}        | ${false}
+    ${{}}           | ${false}
+    ${{ x: 'x' }}   | ${false}
+    ${new Error()}  | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isError(arg)).toBe(expected))
+})
+
+describe('isNaNValue', () => {
+  test.each`
+    arg             | expected
+    ${null}         | ${false}
+    ${false}        | ${false}
+    ${undefined}    | ${false}
+    ${'string'}     | ${false}
+    ${''}           | ${false}
+    ${'01/01/1900'} | ${false}
+    ${12345}        | ${false}
+    ${-12345}       | ${false}
+    ${Infinity}     | ${false}
+    ${-Infinity}    | ${false}
+    ${[]}           | ${false}
+    ${['x']}        | ${false}
+    ${{}}           | ${false}
+    ${{ x: 'x' }}   | ${false}
+    ${NaN}          | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isNaNValue(arg)).toBe(expected))
+})
+
+describe('isInfinite', () => {
+  test.each`
+    arg             | expected
+    ${null}         | ${false}
+    ${false}        | ${false}
+    ${undefined}    | ${false}
+    ${'string'}     | ${false}
+    ${''}           | ${false}
+    ${'01/01/1900'} | ${false}
+    ${12345}        | ${false}
+    ${-12345}       | ${false}
+    ${NaN}          | ${false}
+    ${[]}           | ${false}
+    ${['x']}        | ${false}
+    ${{}}           | ${false}
+    ${{ x: 'x' }}   | ${false}
+    ${Infinity}     | ${true}
+    ${-Infinity}    | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isInfinite(arg)).toBe(expected))
+})
+
+describe('isOdd', () => {
+  test.each`
+    arg             | expected
+    ${null}         | ${false}
+    ${false}        | ${false}
+    ${undefined}    | ${false}
+    ${'string'}     | ${false}
+    ${''}           | ${false}
+    ${'01/01/1900'} | ${false}
+    ${12346}        | ${false}
+    ${12345}        | ${true}
+    ${-12345}       | ${true}
+    ${Infinity}     | ${false}
+    ${-Infinity}    | ${false}
+    ${NaN}          | ${false}
+    ${[]}           | ${false}
+    ${['x']}        | ${false}
+    ${{}}           | ${false}
+    ${{ x: 'x' }}   | ${false}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isOdd(arg)).toBe(expected))
+})
+
+describe('isEven', () => {
+  test.each`
+    arg             | expected
+    ${null}         | ${false}
+    ${false}        | ${false}
+    ${undefined}    | ${false}
+    ${'string'}     | ${false}
+    ${''}           | ${false}
+    ${'01/01/1900'} | ${false}
+    ${12346}        | ${true}
+    ${12345}        | ${false}
+    ${-12345}       | ${false}
+    ${Infinity}     | ${false}
+    ${-Infinity}    | ${false}
+    ${NaN}          | ${false}
+    ${[]}           | ${false}
+    ${['x']}        | ${false}
+    ${{}}           | ${false}
+    ${{ x: 'x' }}   | ${false}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isEven(arg)).toBe(expected))
+})
+
 describe('isEmail', () => {
   test.each`
     arg              | expected
@@ -827,23 +1033,46 @@ describe('isEmail', () => {
 
 describe('isUrl', () => {
   test.each`
-    arg                 | expected
-    ${null}             | ${false}
-    ${false}            | ${false}
-    ${undefined}        | ${false}
-    ${'string'}         | ${false}
-    ${''}               | ${false}
-    ${'plop.io'}        | ${false}
-    ${'ftp://plop.io'}  | ${false}
-    ${12345}            | ${false}
-    ${-12345}           | ${false}
-    ${Infinity}         | ${false}
-    ${-Infinity}        | ${false}
-    ${NaN}              | ${false}
-    ${[]}               | ${false}
-    ${['x']}            | ${false}
-    ${{}}               | ${false}
-    ${{ x: 'x' }}       | ${false}
-    ${'http://plop.io'} | ${true}
+    arg                  | expected
+    ${null}              | ${false}
+    ${false}             | ${false}
+    ${undefined}         | ${false}
+    ${'string'}          | ${false}
+    ${''}                | ${false}
+    ${'plop.io'}         | ${false}
+    ${'ftp://plop.io'}   | ${false}
+    ${12345}             | ${false}
+    ${-12345}            | ${false}
+    ${Infinity}          | ${false}
+    ${-Infinity}         | ${false}
+    ${NaN}               | ${false}
+    ${[]}                | ${false}
+    ${['x']}             | ${false}
+    ${{}}                | ${false}
+    ${{ x: 'x' }}        | ${false}
+    ${'http://plop.io'}  | ${true}
+    ${'https://plop.io'} | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isUrl(arg)).toBe(expected))
+})
+
+describe('isFalsy', () => {
+  test.each`
+    arg             | expected
+    ${null}         | ${true}
+    ${false}        | ${true}
+    ${undefined}    | ${true}
+    ${'string'}     | ${false}
+    ${''}           | ${true}
+    ${'01/01/1900'} | ${false}
+    ${12346}        | ${false}
+    ${12345}        | ${false}
+    ${-12345}       | ${false}
+    ${Infinity}     | ${false}
+    ${-Infinity}    | ${false}
+    ${NaN}          | ${true}
+    ${[]}           | ${false}
+    ${['x']}        | ${false}
+    ${{}}           | ${false}
+    ${{ x: 'x' }}   | ${false}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isFalsy(arg)).toBe(expected))
 })
