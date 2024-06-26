@@ -1,5 +1,11 @@
 # @nawael/checker-js
 
+## 1.1.0
+
+### Minor Changes
+
+- 8565e15: Add some methods and infos in README
+
 ## 1.0.6
 
 ### Patch Changes
