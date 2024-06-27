@@ -1,5 +1,3 @@
-export type Empty = (value: unknown) => boolean
-
 // ==== Regex ====
 
 export const alphaRegex = /^[A-Za-z]+$/
@@ -19,126 +17,126 @@ export const urlRegex =
 
 // ==== Type Guards ====
 
-export const hasToStringTag = (arg: unknown): arg is { [Symbol.toStringTag]: string } => typeof arg === 'function' && Symbol.toStringTag in arg
-
 export const getType = (arg: unknown): string => Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
+
+export const hasToStringTag = (arg: unknown): arg is { [Symbol.toStringTag]: string } => typeof arg === 'function' && Symbol.toStringTag in arg
 
 // ==== Array checker ====
 
-export const isArray: Empty = (arg) => Array.isArray(arg)
+export const isArray = <T>(arg: T[]) => Array.isArray(arg)
 
-export const isArrayOrNull: Empty = (arg) => isArray(arg) || isNull(arg)
+export const isArrayOrNull = <T>(arg: T) => isArray(arg as T[]) || isNull(arg)
 
-export const isArrayOfNumbers: Empty = (arg) => Array.isArray(arg) && isArrayNotEmpty(arg) && arg.every((item: unknown) => isNumber(item))
+export const isArrayOfNumbers = <T>(arg: T[]) => isArrayNotEmpty(arg) && arg.every((item: unknown) => isNumber(item))
 
-export const isArrayOfStrings: Empty = (arg) => Array.isArray(arg) && isArrayNotEmpty(arg) && arg.every((item: unknown) => isString(item))
+export const isArrayOfStrings = <T>(arg: T[]) => isArrayNotEmpty(arg) && arg.every((item: unknown) => isString(item))
 
-export const isArrayOfObjects: Empty = (arg) => Array.isArray(arg) && isArrayNotEmpty(arg) && arg.every((item: unknown) => isObject(item))
+export const isArrayOfObjects = <T>(arg: T[]) => isArrayNotEmpty(arg) && arg.every((item: unknown) => isObject(item))
 
-export const isArrayOfBooleans: Empty = (arg) => Array.isArray(arg) && isArrayNotEmpty(arg) && arg.every((item: unknown) => isBoolean(item))
+export const isArrayOfBooleans = <T>(arg: T[]) => isArrayNotEmpty(arg) && arg.every((item: unknown) => isBoolean(item))
 
-export const isArrayNotEmpty: Empty = (arg) => Array.isArray(arg) && arg.length > 0
+export const isArrayNotEmpty = <T>(arg: T[]) => isArray(arg) && arg.length > 0
 
 // ==== Object checker ====
 
-export const isObject: Empty = (arg) => typeof arg === 'object' && !isNull(arg) && !isArray(arg)
+export const isObject = <T>(arg: T) => getType(arg) === 'object' && !isNull(arg) && !isArray(arg as T[])
 
-export const isObjectOrNull: Empty = (arg) => isObject(arg) || isNull(arg)
+export const isObjectOrNull = <T>(arg: T) => isObject(arg) || isNull(arg)
 
-export const isObjectNotEmpty: Empty = (arg) => isObject(arg) && !isUndefined(arg) && Object.keys(arg as object).length > 0
+export const isObjectNotEmpty = <T>(arg: T) => isObject(arg) && !isUndefined(arg) && Object.keys(arg as object).length > 0
 
 // ==== Primitive checker ====
 
-export const isNumber: Empty = (arg) => typeof arg === 'number'
+export const isNumber = <T>(arg: T) => getType(arg) === 'number' || arg instanceof Number
 
-export const isString: Empty = (arg) => typeof arg === 'string' || arg instanceof String
+export const isString = <T>(arg: T) => getType(arg) === 'string' || arg instanceof String
 
-export const isBoolean: Empty = (arg) => typeof arg === 'boolean'
+export const isBoolean = <T>(arg: T) => getType(arg) === 'boolean' || arg instanceof Boolean
 
-export const isUndefined: Empty = (arg) => typeof arg === 'undefined'
+export const isUndefined = <T>(arg: T) => getType(arg) === 'undefined'
 
-export const isNull: Empty = (arg) => typeof arg === 'object' && arg === null
+export const isNull = <T>(arg: T) => getType(arg) === 'null' || arg === null
 
-export const isSymbol: Empty = (arg) => typeof arg === 'symbol'
+export const isSymbol = <T>(arg: T) => getType(arg) === 'symbol' || arg instanceof Symbol
 
-export const isBigInt: Empty = (arg) => typeof arg === 'bigint'
+export const isBigInt = <T>(arg: T) => getType(arg) === 'bigint' || arg instanceof BigInt
 
-export const isPrimitive: Empty = (arg) => isNumber(arg) || isString(arg) || isBoolean(arg) || isUndefined(arg) || isNull(arg) || isSymbol(arg)
+export const isPrimitive = <T>(arg: T) => isNumber(arg) || isString(arg) || isBoolean(arg) || isUndefined(arg) || isNull(arg) || isSymbol(arg)
 
 // ==== Primitive mixins checker ====
 
-export const isBooleanOrNull: Empty = (arg) => isBoolean(arg) || isNull(arg)
+export const isBooleanOrNull = <T>(arg: T) => isBoolean(arg) || isNull(arg)
 
-export const isStringOrNull: Empty = (arg) => isString(arg) || isNull(arg)
+export const isStringOrNull = <T>(arg: T) => isString(arg) || isNull(arg)
 
-export const isStringNotEmpty: Empty = (arg) => isString(arg) && (arg as string).trim() !== ''
+export const isStringNotEmpty = <T>(arg: T) => isString(arg) && (arg as string).trim() !== ''
 
-export const isNumberOrNull: Empty = (arg) => isNumber(arg) || isNull(arg)
+export const isNumberOrNull = <T>(arg: T) => isNumber(arg) || isNull(arg)
 
-export const isPositiveNumber: Empty = (arg) => isNumber(arg) && (arg as number) >= 0
+export const isPositiveNumber = <T>(arg: T) => isNumber(arg) && (arg as number) >= 0
 
-export const isNegativeNumber: Empty = (arg) => isNumber(arg) && (arg as number) < 0
+export const isNegativeNumber = <T>(arg: T) => isNumber(arg) && (arg as number) < 0
 
 // ==== Promise checker ====
 
-export const isPromise: Empty = (arg) => arg instanceof Promise
+export const isPromise = <T>(arg: T) => arg instanceof Promise
 
-export const isFullfilledPromise: Empty = (arg) => arg instanceof Promise && typeof arg.then === 'function'
+export const isFullfilledPromise = <T>(arg: T) => arg instanceof Promise && typeof arg.then === 'function'
 
-export const isRejectedPromise: Empty = (arg) => arg instanceof Promise && typeof arg.catch === 'function'
+export const isRejectedPromise = <T>(arg: T) => arg instanceof Promise && typeof arg.catch === 'function'
 
-export const isPendingPromise: Empty = (arg) => isPromise(arg) && !isFullfilledPromise(arg) && !isRejectedPromise(arg)
+export const isPendingPromise = <T>(arg: T) => isPromise(arg) && !isFullfilledPromise(arg) && !isRejectedPromise(arg)
 
 // ==== Function checker ====
 
-export const isFunction: Empty = (arg) => typeof arg === 'function'
+export const isFunction = <T>(arg: T) => getType(arg) === 'function' || arg instanceof Function
 
-export const isAsyncFunction: Empty = (arg) => hasToStringTag(arg) && arg[Symbol.toStringTag] === 'AsyncFunction'
+export const isAsyncFunction = <T>(arg: T) => hasToStringTag(arg) && arg[Symbol.toStringTag] === 'AsyncFunction'
 
-export const isGeneratorFunction: Empty = (arg) => hasToStringTag(arg) && arg[Symbol.toStringTag] === 'GeneratorFunction'
+export const isGeneratorFunction = <T>(arg: T) => hasToStringTag(arg) && arg[Symbol.toStringTag] === 'GeneratorFunction'
 
 // ==== IP checker ====
 
-export const isIPv4: Empty = (arg) => isString(arg) && ipv4Regex.test(arg as string)
+export const isIPv4 = <T>(arg: T) => isString(arg) && ipv4Regex.test(arg as string)
 
-export const isIPv6: Empty = (arg) => isString(arg) && ipv6Regex.test(arg as string)
+export const isIPv6 = <T>(arg: T) => isString(arg) && ipv6Regex.test(arg as string)
 
 // ==== UUID checker ====
 
-export const isUUID: Empty = (arg) => isString(arg) && uuidRegex.test(arg as string)
+export const isUUID = <T>(arg: T) => isString(arg) && uuidRegex.test(arg as string)
 
-export const isUUIDv3: Empty = (arg) => isString(arg) && uuidv3Regex.test(arg as string)
+export const isUUIDv3 = <T>(arg: T) => isString(arg) && uuidv3Regex.test(arg as string)
 
-export const isUUIDv4: Empty = (arg) => isString(arg) && uuidv4Regex.test(arg as string)
+export const isUUIDv4 = <T>(arg: T) => isString(arg) && uuidv4Regex.test(arg as string)
 
-export const isUUIDv5: Empty = (arg) => isString(arg) && uuidv5Regex.test(arg as string)
+export const isUUIDv5 = <T>(arg: T) => isString(arg) && uuidv5Regex.test(arg as string)
 
 // ==== Misc checker ====
 
-export const isAlpha: Empty = (arg) => isString(arg) && alphaRegex.test(arg as string)
+export const isAlpha = <T>(arg: T) => isString(arg) && alphaRegex.test(arg as string)
 
-export const isAlphanumeric: Empty = (arg) => isString(arg) && alphanumericRegex.test(arg as string)
+export const isAlphanumeric = <T>(arg: T) => isString(arg) && alphanumericRegex.test(arg as string)
 
-export const isDate: Empty = (arg) => arg instanceof Date && !isNaN(arg.valueOf())
+export const isDate = <T>(arg: T) => arg instanceof Date && !isNaN(arg.valueOf())
 
-export const isRegExp: Empty = (arg) => arg instanceof RegExp
+export const isRegExp = <T>(arg: T) => arg instanceof RegExp
 
-export const isMap: Empty = (arg) => arg instanceof Map
+export const isMap = <T>(arg: T) => arg instanceof Map
 
-export const isSet: Empty = (arg) => arg instanceof Set
+export const isSet = <T>(arg: T) => arg instanceof Set
 
-export const isError: Empty = (arg) => arg instanceof Error
+export const isError = <T>(arg: T) => arg instanceof Error
 
-export const isNaNValue: Empty = (arg) => typeof arg === 'number' && isNaN(arg)
+export const isNaNValue = <T>(arg: T) => getType(arg) === 'number' && isNaN(arg as number) && arg !== Infinity && arg !== -Infinity
 
-export const isInfinite: Empty = (arg) => arg === Infinity || arg === -Infinity
+export const isInfinite = <T>(arg: T) => arg === Infinity || arg === -Infinity
 
-export const isOdd: Empty = (arg) => typeof arg === 'number' && Math.abs(arg % 2) === 1
+export const isOdd = <T>(arg: T) => getType(arg) === 'number' && Math.abs((arg as number) % 2) === 1
 
-export const isEven: Empty = (arg) => typeof arg === 'number' && Math.abs(arg % 2) === 0
+export const isEven = <T>(arg: T) => getType(arg) === 'number' && Math.abs((arg as number) % 2) === 0
 
-export const isEmail: Empty = (arg) => isString(arg) && emailRegex.test(arg as string)
+export const isEmail = <T>(arg: T) => isString(arg) && emailRegex.test(arg as string)
 
-export const isUrl: Empty = (arg) => isString(arg) && urlRegex.test(arg as string)
+export const isUrl = <T>(arg: T) => isString(arg) && urlRegex.test(arg as string)
 
-export const isFalsy: Empty = (arg) => !arg
+export const isFalsy = <T>(arg: T) => !arg || arg === '' || arg === 0 || arg === null || arg === undefined

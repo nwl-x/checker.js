@@ -260,61 +260,65 @@ describe('isObjectOrNull', () => {
 
 describe('isNumber', () => {
   test.each`
-    arg           | expected
-    ${null}       | ${false}
-    ${false}      | ${false}
-    ${undefined}  | ${false}
-    ${'string'}   | ${false}
-    ${''}         | ${false}
-    ${[]}         | ${false}
-    ${['x']}      | ${false}
-    ${{}}         | ${false}
-    ${{ x: 'x' }} | ${false}
-    ${12345}      | ${true}
-    ${-12345}     | ${true}
-    ${Infinity}   | ${true}
-    ${-Infinity}  | ${true}
-    ${NaN}        | ${true}
+    arg              | expected
+    ${null}          | ${false}
+    ${false}         | ${false}
+    ${undefined}     | ${false}
+    ${'string'}      | ${false}
+    ${''}            | ${false}
+    ${[]}            | ${false}
+    ${['x']}         | ${false}
+    ${{}}            | ${false}
+    ${{ x: 'x' }}    | ${false}
+    ${new Number(1)} | ${true}
+    ${12345}         | ${true}
+    ${-12345}        | ${true}
+    ${Infinity}      | ${true}
+    ${-Infinity}     | ${true}
+    ${NaN}           | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isNumber(arg)).toBe(expected))
 })
 
 describe('isString', () => {
   test.each`
-    arg           | expected
-    ${null}       | ${false}
-    ${false}      | ${false}
-    ${undefined}  | ${false}
-    ${12345}      | ${false}
-    ${-12345}     | ${false}
-    ${Infinity}   | ${false}
-    ${-Infinity}  | ${false}
-    ${NaN}        | ${false}
-    ${[]}         | ${false}
-    ${['x']}      | ${false}
-    ${{}}         | ${false}
-    ${{ x: 'x' }} | ${false}
-    ${'string'}   | ${true}
-    ${''}         | ${true}
+    arg               | expected
+    ${null}           | ${false}
+    ${false}          | ${false}
+    ${undefined}      | ${false}
+    ${12345}          | ${false}
+    ${-12345}         | ${false}
+    ${Infinity}       | ${false}
+    ${-Infinity}      | ${false}
+    ${NaN}            | ${false}
+    ${[]}             | ${false}
+    ${['x']}          | ${false}
+    ${{}}             | ${false}
+    ${{ x: 'x' }}     | ${false}
+    ${new String('')} | ${true}
+    ${'string'}       | ${true}
+    ${''}             | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isString(arg)).toBe(expected))
 })
 
 describe('isBoolean', () => {
   test.each`
-    arg           | expected
-    ${null}       | ${false}
-    ${undefined}  | ${false}
-    ${'string'}   | ${false}
-    ${''}         | ${false}
-    ${12345}      | ${false}
-    ${-12345}     | ${false}
-    ${Infinity}   | ${false}
-    ${-Infinity}  | ${false}
-    ${NaN}        | ${false}
-    ${[]}         | ${false}
-    ${['x']}      | ${false}
-    ${{}}         | ${false}
-    ${{ x: 'x' }} | ${false}
-    ${false}      | ${true}
+    arg                  | expected
+    ${null}              | ${false}
+    ${undefined}         | ${false}
+    ${'string'}          | ${false}
+    ${''}                | ${false}
+    ${12345}             | ${false}
+    ${-12345}            | ${false}
+    ${Infinity}          | ${false}
+    ${-Infinity}         | ${false}
+    ${NaN}               | ${false}
+    ${[]}                | ${false}
+    ${['x']}             | ${false}
+    ${{}}                | ${false}
+    ${{ x: 'x' }}        | ${false}
+    ${new Boolean(true)} | ${true}
+    ${true}              | ${true}
+    ${false}             | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isBoolean(arg)).toBe(expected))
 })
 
@@ -396,6 +400,7 @@ describe('isBigInt', () => {
     ${['x']}      | ${false}
     ${{}}         | ${false}
     ${{ x: 'x' }} | ${false}
+    ${BigInt(10)} | ${true}
     ${10n}        | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isBigInt(arg)).toBe(expected))
 })
@@ -565,22 +570,23 @@ describe('isPromise', () => {
 
 describe('isFunction', () => {
   test.each`
-    arg           | expected
-    ${null}       | ${false}
-    ${false}      | ${false}
-    ${undefined}  | ${false}
-    ${'string'}   | ${false}
-    ${''}         | ${false}
-    ${12345}      | ${false}
-    ${-12345}     | ${false}
-    ${Infinity}   | ${false}
-    ${-Infinity}  | ${false}
-    ${NaN}        | ${false}
-    ${[]}         | ${false}
-    ${['x']}      | ${false}
-    ${{}}         | ${false}
-    ${{ x: 'x' }} | ${false}
-    ${() => {}}   | ${true}
+    arg               | expected
+    ${null}           | ${false}
+    ${false}          | ${false}
+    ${undefined}      | ${false}
+    ${'string'}       | ${false}
+    ${''}             | ${false}
+    ${12345}          | ${false}
+    ${-12345}         | ${false}
+    ${Infinity}       | ${false}
+    ${-Infinity}      | ${false}
+    ${NaN}            | ${false}
+    ${[]}             | ${false}
+    ${['x']}          | ${false}
+    ${{}}             | ${false}
+    ${{ x: 'x' }}     | ${false}
+    ${new Function()} | ${true}
+    ${() => {}}       | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isFunction(arg)).toBe(expected))
 })
 
@@ -939,6 +945,8 @@ describe('isNaNValue', () => {
     ${['x']}        | ${false}
     ${{}}           | ${false}
     ${{ x: 'x' }}   | ${false}
+    ${1 / 0}        | ${false}
+    ${+'NaN'}       | ${true}
     ${NaN}          | ${true}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isNaNValue(arg)).toBe(expected))
 })
