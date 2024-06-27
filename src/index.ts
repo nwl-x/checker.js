@@ -49,7 +49,8 @@ import {
   isEven,
   isEmail,
   isUrl,
-  isFalsy
+  isFalsy,
+  isBinaryString
 } from './checker-js'
 
 export {
@@ -103,5 +104,6 @@ export {
   isEven,
   isEmail,
   isUrl,
-  isFalsy
+  isFalsy,
+  isBinaryString
 }

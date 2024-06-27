@@ -46,7 +46,8 @@ import {
   isEven,
   isEmail,
   isUrl,
-  isFalsy
+  isFalsy,
+  isBinaryString
 } from '../src/index'
 
 describe('isArray', () => {
@@ -1083,4 +1084,32 @@ describe('isFalsy', () => {
     ${{}}           | ${false}
     ${{ x: 'x' }}   | ${false}
   `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isFalsy(arg)).toBe(expected))
+})
+
+describe('isBinaryString', () => {
+  test.each`
+    arg           | expected
+    ${null}       | ${false}
+    ${false}      | ${false}
+    ${undefined}  | ${false}
+    ${'string'}   | ${false}
+    ${''}         | ${false}
+    ${12345}      | ${false}
+    ${-12345}     | ${false}
+    ${Infinity}   | ${false}
+    ${-Infinity}  | ${false}
+    ${NaN}        | ${false}
+    ${[]}         | ${false}
+    ${['x']}      | ${false}
+    ${{}}         | ${false}
+    ${{ x: 'x' }} | ${false}
+    ${'0'}        | ${true}
+    ${'1'}        | ${true}
+    ${'01'}       | ${true}
+    ${'00'}       | ${true}
+    ${'111'}      | ${true}
+    ${'101'}      | ${true}
+    ${'010'}      | ${true}
+    ${'000'}      | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isBinaryString(arg)).toBe(expected))
 })

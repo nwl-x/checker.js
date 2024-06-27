@@ -140,3 +140,9 @@ export const isEmail = <T>(arg: T) => isString(arg) && emailRegex.test(arg as st
 export const isUrl = <T>(arg: T) => isString(arg) && urlRegex.test(arg as string)
 
 export const isFalsy = <T>(arg: T) => !arg || arg === '' || arg === 0 || arg === null || arg === undefined
+
+export const isBinaryString = <T>(arg: T) =>
+  isStringNotEmpty(arg) &&
+  String(arg)
+    .split('')
+    .every((char) => ['0', '1'].includes(char))
