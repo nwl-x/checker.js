@@ -1,5 +1,11 @@
 # @nawael/checker-js
 
+## 1.1.2
+
+### Patch Changes
+
+- bad4a52: add method
+
 ## 1.1.1
 
 ### Patch Changes
