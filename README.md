@@ -110,7 +110,7 @@ is('number', arg) // isNumber(arg)
 | isSymbol        | Check if the value is a symbol          | is('symbol', arg)          |
 | isPrimitive     | Check if the value is a primitive       | is('primitive', arg)       |
 
-#### String checker
+### String checker
 
 | APIs             | Description                                  | Lazy                        |
 | ---------------- | -------------------------------------------- | --------------------------- |
@@ -124,7 +124,7 @@ is('number', arg) // isNumber(arg)
 | isUrl            | Check if the value is an url string          | is('url', arg)              |
 | isBinaryString   | Check if the value is a binary string        | is('binary-string', arg)    |
 
-#### Number checker
+### Number checker
 
 | APIs             | Description                             | Lazy                       |
 | ---------------- | --------------------------------------- | -------------------------- |
@@ -134,7 +134,7 @@ is('number', arg) // isNumber(arg)
 | isOdd            | Check if the value is an odd            | is('odd', arg)             |
 | isEven           | Check if the value is an even           | is('even', arg)            |
 
-#### Array checker
+### Array checker
 
 | APIs              | Description                                | Lazy                         |
 | ----------------- | ------------------------------------------ | ---------------------------- |
@@ -148,7 +148,7 @@ is('number', arg) // isNumber(arg)
 | isArrayOfBooleans | Check if the value is an array of booleans | is('array-of-booleans', arg) |
 | isArrayNotEmpty   | Check if the value is an array not empty   | is('array-not-empty', arg)   |
 
-#### Object checker
+### Object checker
 
 | APIs             | Description                               | Lazy                        |
 | ---------------- | ----------------------------------------- | --------------------------- |
@@ -156,7 +156,7 @@ is('number', arg) // isNumber(arg)
 | isObjectOrNull   | Check if the value is an object or null   | is('object-or-null', arg)   |
 | isObjectNotEmpty | Check if the value is an object not empty | is('object-not-empty', arg) |
 
-#### Promise checker
+### Promise checker
 
 | APIs                | Description                                | Lazy                          |
 | ------------------- | ------------------------------------------ | ----------------------------- |
@@ -165,7 +165,7 @@ is('number', arg) // isNumber(arg)
 | isRejectedPromise   | Check if the value is a rejected promise   | is('rejected-promise', arg)   |
 | isPendingPromise    | Check if the value is a pending promise    | is('pending-promise', arg)    |
 
-#### Function checker
+### Function checker
 
 | APIs                | Description                                | Lazy                          |
 | ------------------- | ------------------------------------------ | ----------------------------- |
@@ -173,7 +173,7 @@ is('number', arg) // isNumber(arg)
 | isAsyncFunction     | Check if the value is an async function    | is('async-function', arg)     |
 | isGeneratorFunction | Check if the value is a generator function | is('generator-function', arg) |
 
-#### IP checker
+### IP checker
 
 | APIs   | Description                   | Lazy            |
 | ------ | ----------------------------- | --------------- |
@@ -181,7 +181,7 @@ is('number', arg) // isNumber(arg)
 | isIPv6 | Check if the value is an IPv6 | is('ipv6', arg) |
 | isIP   | Check if the value is an IP   | is('ip', arg)   |
 
-#### UUID checker
+### UUID checker
 
 | APIs     | Description                    | Lazy               |
 | -------- | ------------------------------ | ------------------ |
@@ -190,7 +190,7 @@ is('number', arg) // isNumber(arg)
 | isUUIDv4 | Check if the value is a UUIDv4 | is('uuid-v4', arg) |
 | isUUIDv5 | Check if the value is a UUIDv5 | is('uuid-v5', arg) |
 
-#### Misc checker
+### Misc checker
 
 | APIs     | Description                                | Lazy              |
 | -------- | ------------------------------------------ | ----------------- |
