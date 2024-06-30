@@ -1,5 +1,11 @@
 # @nawael/checker-js
 
+## 1.1.3
+
+### Patch Changes
+
+- ea9ea27: Add markdown documentation
+
 ## 1.1.2
 
 ### Patch Changes
