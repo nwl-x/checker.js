@@ -1,5 +1,12 @@
 # @nawael/checker-js
 
+## 1.1.6
+
+### Patch Changes
+
+- ea9ea27: Add markdown documentation
+- dbe1ca8: typescript config
+
 ## 1.1.2
 
 ### Patch Changes
