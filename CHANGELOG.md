@@ -1,5 +1,11 @@
 # @nawael/checker-js
 
+## 1.2.0
+
+### Minor Changes
+
+- 0960034: plop
+
 ## 1.1.6
 
 ### Patch Changes
