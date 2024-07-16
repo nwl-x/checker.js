@@ -13,7 +13,20 @@ import {
 import { isFunction, isAsyncFunction, isGeneratorFunction } from './function'
 import { isIPv4, isIPv6, isIP } from './ip'
 import { isDate, isRegExp, isError, isFalsy, isTruthy } from './misc'
-import { isPositiveNumber, isNegativeNumber, isInfinite, isOdd, isEven } from './number'
+import {
+  isPositiveNumber,
+  isNegativeNumber,
+  isInfinite,
+  isOdd,
+  isEven,
+  isDecimal,
+  isGreaterThan,
+  isGreaterEqualThan,
+  isLessThan,
+  isLessEqualThan,
+  isBetween,
+  isBetweenEqual
+} from './number'
 import { isObject, isObjectOrNull, isObjectEmpty, isObjectNotEmpty } from './object'
 import {
   isBoolean,
@@ -37,10 +50,25 @@ import {
   isNumberOrNull,
   isEmail,
   isUrl,
-  isBinaryString
+  isBinaryString,
+  isBase64
 } from './string'
 import { isUUID, isUUIDv3, isUUIDv4, isUUIDv5 } from './uuid'
 import is from './is'
+import { isWindow, isNode, isBrowser, isJsDom, isWebWorker, isBun, isMac, isLinux, isWindows } from './environment'
+import {
+  isIpad,
+  isIphone,
+  isIpod,
+  isAndroid,
+  isAndroidPhone,
+  isAndroidTablet,
+  isMobile,
+  isTablet,
+  isDesktop,
+  isIos
+} from './platform'
+import { isChrome, isFirefox, isOpera, isOperaMini, isSafari, isEdge, isIe } from './browser'
 
 export {
   is,
@@ -70,6 +98,13 @@ export {
   isInfinite,
   isOdd,
   isEven,
+  isDecimal,
+  isGreaterThan,
+  isGreaterEqualThan,
+  isLessThan,
+  isLessEqualThan,
+  isBetween,
+  isBetweenEqual,
   isObject,
   isObjectOrNull,
   isObjectNotEmpty,
@@ -97,8 +132,35 @@ export {
   isEmail,
   isUrl,
   isBinaryString,
+  isBase64,
   isUUID,
   isUUIDv3,
   isUUIDv4,
-  isUUIDv5
+  isUUIDv5,
+  isWindow,
+  isNode,
+  isBrowser,
+  isJsDom,
+  isWebWorker,
+  isBun,
+  isMac,
+  isLinux,
+  isWindows,
+  isIpad,
+  isIphone,
+  isIpod,
+  isAndroid,
+  isAndroidPhone,
+  isAndroidTablet,
+  isMobile,
+  isTablet,
+  isDesktop,
+  isIos,
+  isChrome,
+  isFirefox,
+  isOpera,
+  isOperaMini,
+  isSafari,
+  isEdge,
+  isIe
 }

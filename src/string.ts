@@ -3,8 +3,9 @@ import { isNull, isNumber, isString } from './primitive'
 export const alphaRegex = /^[A-Za-z]+$/
 export const numericRegex = /^[0-9]+$/
 export const alphanumericRegex = /^[A-Za-z0-9]+$/
-
 export const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+export const base64Regex =
+  /^(?:data:(?<mimeType>[a-z]*\/[a-z*]*);base64,)?(?:[a-z0-9+/]{4})*(?:[a-z0-9+/]{2}==|[a-z0-9+/]{3}=|[a-z0-9+/]{4})$/i
 export const urlRegex =
   /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
 
@@ -31,3 +32,5 @@ export const isBinaryString = <T>(arg: T) =>
   String(arg)
     .split('')
     .every((char) => ['0', '1'].includes(char))
+
+export const isBase64 = <T>(arg: T) => isString(arg) && base64Regex.test(arg as string)
