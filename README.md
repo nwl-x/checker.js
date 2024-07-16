@@ -3,6 +3,7 @@
 A set of boilerplate utilities for checking any type of values ​​without headaches or common mistakes
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nwl-x/checker.js/release.yml)
+[![codecov](https://codecov.io/github/nwl-x/checker.js/graph/badge.svg?token=3S7NXTH8RE)](https://codecov.io/github/nwl-x/checker.js)
 ![GitHub top language](https://img.shields.io/github/languages/top/nwl-x/checker.js?logo=typescript)
 ![GitHub License](https://img.shields.io/github/license/nwl-x/checker.js)
 ![NPM Downloads](https://img.shields.io/npm/dw/%40nawael%2Fchecker.js?logo=npm)
@@ -12,6 +13,12 @@ A set of boilerplate utilities for checking any type of values ​​without hea
 ![Banner](https://raw.githubusercontent.com/nwl-x/checker.js/main/checker-banner.png)
 
 ## Installation
+
+### With [pnpm](https://pnpm.io/fr/)
+
+```bash
+pnpm install @nawael/checker.js --save
+```
 
 #### With [npm](https://www.npmjs.com/)
 
@@ -39,9 +46,10 @@ const { isArray, isString, isNumber, ... } = require('@nawael/checker.js')
 import { isArray, isString, isNumber, ... } from '@nawael/checker.js'
 ```
 
-## Usage
+## Usage examples
 
-#### Works with Object
+<details>
+<summary>Works with Object</summary>
 
 ```js
 // instead of using typeof
@@ -60,7 +68,10 @@ isObject(arg)
 // ❌ false if arg = [] cause typeof [] === 'object'
 ```
 
-#### Works with Number
+</details>
+
+<details>
+<summary>Works with Number</summary>
 
 ```js
 // instead of using typeof
@@ -75,127 +86,187 @@ isNumber(arg)
 // ✅ true if arg = 0 or arg = Infinity or -Infinity or
 // ✅ true if arg = new Number() cause typeof new Number() === 'object'
 // ❌ false if arg = NaN cause NaN is a number and we need to avoid NaN
-// 😱 so we must check Object.prototype.toString.call(arg).slice(8, -1).toLowerCase() === 'number'
+// 😱 so we must check Object.prototype.toString.call(arg) === '[object Number]'
 ```
 
-## "Lazy" API
+</details>
+
+<details>
+<summary>Standalone "is" API</summary>
+
+> [!TIP]
+> All APIs are available in the standalone "is" API
 
 ```js
-// instead of importing all API (not recommended)
+// instead of importing all API
 import { isArray, isString, isNumber, ... } from '@nawael/checker.js'
 
-// use "lazy" API and avoid boring imports
+// use "is" API and avoid boring imports
 import { is } from '@nawael/checker.js'
 
-is('array', arg) // isArray(arg)
-is('string', arg) // isString(arg)
-is('number', arg) // isNumber(arg)
+is.array(arg) // isArray(arg)
+is.string(arg) // isString(arg)
+is.number(arg) // isNumber(arg)
 
 // ...and so on
 ```
+
+</details>
 
 ## Available APIs
 
 ### primitive checker
 
-| APIs            | Description                             | Lazy                       |
-| --------------- | --------------------------------------- | -------------------------- |
-| isBoolean       | Check if the value is a boolean         | is('boolean', arg)         |
-| isBooleanOrNull | Check if the value is a boolean or null | is('boolean-or-null', arg) |
-| isBigInt        | Check if the value is a BigInt          | is('bigint', arg)          |
-| isNumber        | Check if the value is a number          | is('number', arg)          |
-| isNull          | Check if the value is null              | is('null', arg)            |
-| isString        | Check if the value is a string          | is('string', arg)          |
-| isUndefined     | Check if the value is undefined         | is('undefined', arg)       |
-| isSymbol        | Check if the value is a symbol          | is('symbol', arg)          |
-| isPrimitive     | Check if the value is a primitive       | is('primitive', arg)       |
+| APIs                 | standalone is         |
+| -------------------- | --------------------- |
+| isBoolean(arg)       | is.boolean(arg)       |
+| isBooleanOrNull(arg) | is.booleanOrNull(arg) |
+| isBigInt(arg)        | is.bigInt(arg)        |
+| isNumber(arg)        | is.number(arg)        |
+| isNull(arg)          | is.null(arg)          |
+| isString(arg)        | is.string(arg)        |
+| isUndefined(arg)     | is.undefined(arg)     |
+| isSymbol(arg)        | is.symbol(arg)        |
+| isPrimitive(arg)     | is.primitive(arg)     |
 
 ### String checker
 
-| APIs             | Description                                  | Lazy                        |
-| ---------------- | -------------------------------------------- | --------------------------- |
-| isStringOrNull   | Check if the value is a string or null       | is('string-or-null', arg)   |
-| isStringNotEmpty | Check if the value is a string not empty     | is('string-not-empty', arg) |
-| isAlpha          | Check if the value is an alpha string        | is('alpha', arg)            |
-| isNumeric        | Check if the value is a numeric string       | is('numeric', arg)          |
-| isAlphanumeric   | Check if the value is an alphanumeric string | is('alphanumeric', arg)     |
-| isNumberOrNull   | Check if the value is a number or null       | is('number-or-null', arg)   |
-| isEmail          | Check if the value is an email string        | is('email', arg)            |
-| isUrl            | Check if the value is an url string          | is('url', arg)              |
-| isBinaryString   | Check if the value is a binary string        | is('binary-string', arg)    |
+| APIs                  | standalone is               |
+| --------------------- | --------------------------- |
+| isStringOrNull(arg)   | is.string.orNull(arg)       |
+| isStringEmpty(arg)    | is.string.empty(arg)        |
+| isStringNotEmpty(arg) | is.string.notEmpty(arg)     |
+| isAlpha(arg)          | is.string.alpha(arg)        |
+| isNumeric(arg)        | is.string.numeric(arg)      |
+| isAlphanumeric(arg)   | is.string.alphanumeric(arg) |
+| isEmail(arg)          | is.string.email(arg)        |
+| isUrl(arg)            | is.string.url(arg)          |
+| isBinaryString(arg)   | is.string.binary(arg)       |
+| isBase64(arg)         | is.string.base64(arg)       |
 
 ### Number checker
 
-| APIs             | Description                             | Lazy                       |
-| ---------------- | --------------------------------------- | -------------------------- |
-| isPositiveNumber | Check if the value is a positive number | is('positive-number', arg) |
-| isNegativeNumber | Check if the value is a negative number | is('negative-number', arg) |
-| isInfinite       | Check if the value is an infinite       | is('infinite', arg)        |
-| isOdd            | Check if the value is an odd            | is('odd', arg)             |
-| isEven           | Check if the value is an even           | is('even', arg)            |
-
-### Array checker
-
-| APIs              | Description                                | Lazy                         |
-| ----------------- | ------------------------------------------ | ---------------------------- |
-| isArray           | Check if the value is an array             | is('array', arg)             |
-| isMap             | Check if the value is a map                | is('map', arg)               |
-| isSet             | Check if the value is a set                | is('set', arg)               |
-| isArrayOrNull     | Check if the value is an array or null     | is('array-or-null', arg)     |
-| isArrayOfNumbers  | Check if the value is an array of numbers  | is('array-of-numbers', arg)  |
-| isArrayOfStrings  | Check if the value is an array of strings  | is('array-of-strings', arg)  |
-| isArrayOfObjects  | Check if the value is an array of objects  | is('array-of-objects', arg)  |
-| isArrayOfBooleans | Check if the value is an array of booleans | is('array-of-booleans', arg) |
-| isArrayNotEmpty   | Check if the value is an array not empty   | is('array-not-empty', arg)   |
+| APIs                               | standalone is                              |
+| ---------------------------------- | ------------------------------------------ |
+| isPositiveNumber(arg)              | is.number.positive(arg)                    |
+| isNegativeNumber(arg)              | is.number.negative(arg)                    |
+| isInfinite(arg)                    | is.number.infinite(arg)                    |
+| isOdd(arg)                         | is.number.odd(arg)                         |
+| isEven(arg)                        | is.number.even(arg)                        |
+| isNumberOrNull(arg)                | is.number.orNull(arg)                      |
+| isDecimal(arg)                     | is.number.decimal(arg)                     |
+| isGreaterThan(arg, compare)        | is.number.greaterThan(arg, compare)        |
+| isGreaterEqualThan(arg, compare)   | is.number.greaterEqualThan(arg, compare)   |
+| isLessThan(arg, compare)           | is.number.lessThan(arg, compare)           |
+| isLessEqualThan(arg, compare)      | is.number.lessEqualThan(arg, compare)      |
+| isBetween(arg, start, finish)      | is.number.between(arg, start, finish)      |
+| isBetweenEqual(arg, start, finish) | is.number.betweenEqual(arg, start, finish) |
 
 ### Object checker
 
-| APIs             | Description                               | Lazy                        |
-| ---------------- | ----------------------------------------- | --------------------------- |
-| isObject         | Check if the value is an object           | is('object', arg)           |
-| isObjectOrNull   | Check if the value is an object or null   | is('object-or-null', arg)   |
-| isObjectNotEmpty | Check if the value is an object not empty | is('object-not-empty', arg) |
+| APIs                  | standalone is           |
+| --------------------- | ----------------------- |
+| isObject(arg)         | is.object(arg)          |
+| isObjectOrNull(arg)   | is.object.orNull(arg)   |
+| isObjectNotEmpty(arg) | is.object.notEmpty(arg) |
+| isObjectEmpty(arg)    | is.object.empty(arg)    |
 
-### Promise checker
+### Array checker
 
-| APIs                | Description                                | Lazy                          |
-| ------------------- | ------------------------------------------ | ----------------------------- |
-| isPromise           | Check if the value is a promise            | is('promise', arg)            |
-| isFullfilledPromise | Check if the value is a fullfilled promise | is('fullfilled-promise', arg) |
-| isRejectedPromise   | Check if the value is a rejected promise   | is('rejected-promise', arg)   |
-| isPendingPromise    | Check if the value is a pending promise    | is('pending-promise', arg)    |
+| APIs                   | standalone is          |
+| ---------------------- | ---------------------- |
+| isArray(arg)           | is.array(arg)          |
+| isMap(arg)             | is.map(arg)            |
+| isSet(arg)             | is.set(arg)            |
+| isArrayOrNull(arg)     | is.array.orNull(arg)   |
+| isArrayOfNumbers(arg)  | is.array.number(arg)   |
+| isArrayOfStrings(arg)  | is.array.string(arg)   |
+| isArrayOfObjects(arg)  | is.array.object(arg)   |
+| isArrayOfBooleans(arg) | is.array.boolean(arg)  |
+| isArrayNotEmpty(arg)   | is.array.notEmpty(arg) |
+| isArrayEmpty(arg)      | is.array.empty(arg)    |
 
 ### Function checker
 
-| APIs                | Description                                | Lazy                          |
-| ------------------- | ------------------------------------------ | ----------------------------- |
-| isFunction          | Check if the value is a function           | is('function', arg)           |
-| isAsyncFunction     | Check if the value is an async function    | is('async-function', arg)     |
-| isGeneratorFunction | Check if the value is a generator function | is('generator-function', arg) |
+| APIs                     | standalone is     |
+| ------------------------ | ----------------- |
+| isFunction(arg)          | is.function(arg)  |
+| isAsyncFunction(arg)     | is.async(arg)     |
+| isGeneratorFunction(arg) | is.generator(arg) |
 
-### IP checker
+### Promise checker
 
-| APIs   | Description                   | Lazy            |
-| ------ | ----------------------------- | --------------- |
-| isIPv4 | Check if the value is an IPv4 | is('ipv4', arg) |
-| isIPv6 | Check if the value is an IPv6 | is('ipv6', arg) |
-| isIP   | Check if the value is an IP   | is('ip', arg)   |
-
-### UUID checker
-
-| APIs     | Description                    | Lazy               |
-| -------- | ------------------------------ | ------------------ |
-| isUUID   | Check if the value is a UUID   | is('uuid', arg)    |
-| isUUIDv3 | Check if the value is a UUIDv3 | is('uuid-v3', arg) |
-| isUUIDv4 | Check if the value is a UUIDv4 | is('uuid-v4', arg) |
-| isUUIDv5 | Check if the value is a UUIDv5 | is('uuid-v5', arg) |
+| APIs                     | standalone is              |
+| ------------------------ | -------------------------- |
+| isPromise(arg)           | is.promise(arg)            |
+| isFullfilledPromise(arg) | is.promise.fullfilled(arg) |
+| isRejectedPromise(arg)   | is.promise.rejected(arg)   |
+| isPendingPromise(arg)    | is.promise.pending(arg)    |
 
 ### Misc checker
 
-| APIs     | Description                                | Lazy              |
-| -------- | ------------------------------------------ | ----------------- |
-| isDate   | Check if the value is a date               | is('date', arg)   |
-| isRegExp | Check if the value is a regular expression | is('regexp', arg) |
-| isError  | Check if the value is an error             | is('error', arg)  |
-| isFalsy  | Check if the value is falsy                | is('falsy', arg)  |
-| isTruthy | Check if the value is truthy               | is('truthy', arg) |
+| APIs          | standalone is  |
+| ------------- | -------------- |
+| isDate(arg)   | is.date(arg)   |
+| isRegExp(arg) | is.regExp(arg) |
+| isError(arg)  | is.error(arg)  |
+| isFalsy(arg)  | is.falsy(arg)  |
+| isTruthy(arg) | is.truthy(arg) |
+
+### UUID checker
+
+| APIs          | standalone is  |
+| ------------- | -------------- |
+| isUUID(arg)   | is.uuid(arg)   |
+| isUUIDv3(arg) | is.uuidv3(arg) |
+| isUUIDv4(arg) | is.uuidv4(arg) |
+| isUUIDv5(arg) | is.uuidv5(arg) |
+
+### Environment checker
+
+| APIs          | standalone is  |
+| ------------- | -------------- |
+| isWindow()    | is.window()    |
+| isNode()      | is.node()      |
+| isBrowser()   | is.browser()   |
+| isJsDom()     | is.jsDom()     |
+| isWebWorker() | is.webWorker() |
+| isBun()       | is.bun()       |
+| isMac()       | is.mac()       |
+| isLinux()     | is.linux()     |
+| isWindows()   | is.windows()   |
+
+### Platform checker
+
+| APIs              | standalone is      |
+| ----------------- | ------------------ |
+| isIpad()          | is.ipad()          |
+| isIphone()        | is.iphone()        |
+| isIpod()          | is.ipod()          |
+| isAndroid()       | is.android()       |
+| isAndroidPhone()  | is.androidPhone()  |
+| isAndroidTablet() | is.androidTablet() |
+| isMobile()        | is.mobile()        |
+| isTablet()        | is.tablet()        |
+| isDesktop()       | is.desktop()       |
+| isIos()           | is.ios()           |
+
+### Browser checker
+
+| APIs          | standalone is  |
+| ------------- | -------------- |
+| isChrome()    | is.chrome()    |
+| isFirefox()   | is.firefox()   |
+| isOpera()     | is.opera()     |
+| isOperaMini() | is.operaMini() |
+| isSafari()    | is.safari()    |
+| isEdge()      | is.edge()      |
+| isIe()        | is.ie()        |
+
+### IP checker
+
+| APIs        | standalone is |
+| ----------- | ------------- |
+| isIPv4(arg) | is.ipv4(arg)  |
+| isIPv6(arg) | is.ipv6(arg)  |
+| isIP(arg)   | is.ip(arg)    |

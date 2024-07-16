@@ -224,5 +224,4 @@ export type IsMethods = {
   edge: MethodNoParam
   ie: MethodNoParam
 }
-declare const is: IsMethods
-export default is
+export declare const is: IsMethods

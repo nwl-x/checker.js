@@ -26,7 +26,6 @@ import {
   isStringEmpty,
   isStringNotEmpty,
   isBinaryString,
-  isNumberOrNull,
   isAlpha,
   isNumeric,
   isAlphanumeric,
@@ -40,6 +39,7 @@ import {
   isInfinite,
   isOdd,
   isEven,
+  isNumberOrNull,
   isDecimal,
   isGreaterThan,
   isGreaterEqualThan,
@@ -79,7 +79,7 @@ import {
   PromiseMethods
 } from './type'
 
-const is: IsMethods = {
+export const is: IsMethods = {
   // ==== Fluent methods ====
 
   ['array']: (() => {
@@ -200,7 +200,6 @@ const is: IsMethods = {
   mac: () => isMac(),
   linux: () => isLinux(),
   windows: () => isWindows(),
-
   ipad: () => isIpad(),
   iphone: () => isIphone(),
   ipod: () => isIpod(),
@@ -211,7 +210,6 @@ const is: IsMethods = {
   tablet: () => isTablet(),
   desktop: () => isDesktop(),
   ios: () => isIos(),
-
   chrome: () => isChrome(),
   firefox: () => isFirefox(),
   opera: () => isOpera(),
@@ -220,5 +218,3 @@ const is: IsMethods = {
   edge: () => isEdge(),
   ie: () => isIe()
 }
-
-export default is

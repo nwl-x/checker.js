@@ -1,4 +1,4 @@
-import { isNull, isNumber, isString } from './primitive'
+import { isNull, isString } from './primitive'
 
 export const alphaRegex = /^[A-Za-z]+$/
 export const numericRegex = /^[0-9]+$/
@@ -20,8 +20,6 @@ export const isAlpha = <T>(arg: T) => isString(arg) && alphaRegex.test(arg as st
 export const isNumeric = <T>(arg: T) => isString(arg) && numericRegex.test(arg as string)
 
 export const isAlphanumeric = <T>(arg: T) => isString(arg) && alphanumericRegex.test(arg as string)
-
-export const isNumberOrNull = <T>(arg: T) => isNumber(arg) || isNull(arg)
 
 export const isEmail = <T>(arg: T) => isString(arg) && emailRegex.test(arg as string)
 

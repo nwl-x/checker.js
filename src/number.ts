@@ -1,4 +1,4 @@
-import { isNumber } from './primitive'
+import { isNull, isNumber } from './primitive'
 
 export const isPositiveNumber = <T>(arg: T) => isNumber(arg) && (arg as number) >= 0
 
@@ -10,7 +10,7 @@ export const isOdd = <T>(arg: T) => isNumber(arg) && Math.abs((arg as number) % 
 
 export const isEven = <T>(arg: T) => isNumber(arg) && Math.abs((arg as number) % 2) === 0
 
-// =============================================================================
+export const isNumberOrNull = <T>(arg: T) => isNumber(arg) || isNull(arg)
 
 export const isDecimal = <T>(arg: T) => isNumber(arg) && !isInfinite(arg) && +arg % 1 !== 0
 
