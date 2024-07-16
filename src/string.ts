@@ -10,6 +10,8 @@ export const urlRegex =
 
 export const isStringOrNull = <T>(arg: T) => isString(arg) || isNull(arg)
 
+export const isStringEmpty = <T>(arg: T) => isString(arg) && (arg as string).trim() === ''
+
 export const isStringNotEmpty = <T>(arg: T) => isString(arg) && (arg as string).trim() !== ''
 
 export const isAlpha = <T>(arg: T) => isString(arg) && alphaRegex.test(arg as string)

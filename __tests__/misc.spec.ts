@@ -1,117 +1,305 @@
-import { isDate, isRegExp, isError, isFalsy, isTruthy } from '../src/index'
+import { is, isDate, isRegExp, isError, isFalsy, isTruthy } from '../src/index'
 
-describe('isDate', () => {
+describe('is.date | isDate', () => {
   test.each`
-    arg             | expected
-    ${null}         | ${false}
-    ${false}        | ${false}
-    ${undefined}    | ${false}
-    ${'string'}     | ${false}
-    ${''}           | ${false}
-    ${'01/01/1900'} | ${false}
-    ${12345}        | ${false}
-    ${-12345}       | ${false}
-    ${Infinity}     | ${false}
-    ${-Infinity}    | ${false}
-    ${NaN}          | ${false}
-    ${[]}           | ${false}
-    ${['x']}        | ${false}
-    ${{}}           | ${false}
-    ${{ x: 'x' }}   | ${false}
-    ${new Date()}   | ${true}
-  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isDate(arg)).toBe(expected))
+    arg                          | expected
+    ${null}                      | ${false}
+    ${undefined}                 | ${false}
+    ${false}                     | ${false}
+    ${Boolean()}                 | ${false}
+    ${new Boolean()}             | ${false}
+    ${''}                        | ${false}
+    ${'string'}                  | ${false}
+    ${'a1'}                      | ${false}
+    ${'@plop'}                   | ${false}
+    ${'kikoo@plop'}              | ${false}
+    ${'john@doe.io'}             | ${false}
+    ${'plop.io'}                 | ${false}
+    ${'ftp://plop.io'}           | ${false}
+    ${'http://plop.io'}          | ${false}
+    ${'https://plop.io'}         | ${false}
+    ${'0'}                       | ${false}
+    ${'1'}                       | ${false}
+    ${'01'}                      | ${false}
+    ${String('')}                | ${false}
+    ${new String('')}            | ${false}
+    ${3}                         | ${false}
+    ${-1}                        | ${false}
+    ${Infinity}                  | ${false}
+    ${-Infinity}                 | ${false}
+    ${NaN}                       | ${false}
+    ${Number(1)}                 | ${false}
+    ${new Number(1)}             | ${false}
+    ${1n}                        | ${false}
+    ${{}}                        | ${false}
+    ${{ x: 1 }}                  | ${false}
+    ${Object.create({})}         | ${false}
+    ${[]}                        | ${false}
+    ${['x']}                     | ${false}
+    ${[String('')]}              | ${false}
+    ${[new String('')]}          | ${false}
+    ${[1, null]}                 | ${false}
+    ${[1, NaN]}                  | ${false}
+    ${[Infinity, NaN]}           | ${false}
+    ${[Infinity, Number(1)]}     | ${false}
+    ${[Infinity, new Number(1)]} | ${false}
+    ${[1, 2, 3]}                 | ${false}
+    ${[{}]}                      | ${false}
+    ${[Object.create({})]}       | ${false}
+    ${[!'']}                     | ${false}
+    ${[true]}                    | ${false}
+    ${[Boolean()]}               | ${false}
+    ${[new Boolean()]}           | ${false}
+    ${[true]}                    | ${false}
+    ${new Set()}                 | ${false}
+    ${new Map()}                 | ${false}
+    ${Symbol()}                  | ${false}
+    ${new Date()}                | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => {
+    expect(isDate(arg)).toBe(expected)
+    expect(is.date(arg)).toBe(expected)
+  })
 })
 
-describe('isRegExp', () => {
+describe('is.regExp | isRegExp', () => {
   test.each`
-    arg                 | expected
-    ${null}             | ${false}
-    ${false}            | ${false}
-    ${undefined}        | ${false}
-    ${'string'}         | ${false}
-    ${''}               | ${false}
-    ${'01/01/1900'}     | ${false}
-    ${12345}            | ${false}
-    ${-12345}           | ${false}
-    ${Infinity}         | ${false}
-    ${-Infinity}        | ${false}
-    ${NaN}              | ${false}
-    ${[]}               | ${false}
-    ${['x']}            | ${false}
-    ${{}}               | ${false}
-    ${{ x: 'x' }}       | ${false}
-    ${/$/}              | ${true}
-    ${new RegExp(/^$/)} | ${true}
-  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isRegExp(arg)).toBe(expected))
+    arg                          | expected
+    ${null}                      | ${false}
+    ${undefined}                 | ${false}
+    ${false}                     | ${false}
+    ${Boolean()}                 | ${false}
+    ${new Boolean()}             | ${false}
+    ${''}                        | ${false}
+    ${'string'}                  | ${false}
+    ${'a1'}                      | ${false}
+    ${'@plop'}                   | ${false}
+    ${'kikoo@plop'}              | ${false}
+    ${'john@doe.io'}             | ${false}
+    ${'plop.io'}                 | ${false}
+    ${'ftp://plop.io'}           | ${false}
+    ${'http://plop.io'}          | ${false}
+    ${'https://plop.io'}         | ${false}
+    ${'0'}                       | ${false}
+    ${'1'}                       | ${false}
+    ${'01'}                      | ${false}
+    ${String('')}                | ${false}
+    ${new String('')}            | ${false}
+    ${3}                         | ${false}
+    ${-1}                        | ${false}
+    ${Infinity}                  | ${false}
+    ${-Infinity}                 | ${false}
+    ${NaN}                       | ${false}
+    ${Number(1)}                 | ${false}
+    ${new Number(1)}             | ${false}
+    ${1n}                        | ${false}
+    ${{}}                        | ${false}
+    ${{ x: 1 }}                  | ${false}
+    ${Object.create({})}         | ${false}
+    ${[]}                        | ${false}
+    ${['x']}                     | ${false}
+    ${[String('')]}              | ${false}
+    ${[new String('')]}          | ${false}
+    ${[1, null]}                 | ${false}
+    ${[1, NaN]}                  | ${false}
+    ${[Infinity, NaN]}           | ${false}
+    ${[Infinity, Number(1)]}     | ${false}
+    ${[Infinity, new Number(1)]} | ${false}
+    ${[1, 2, 3]}                 | ${false}
+    ${[{}]}                      | ${false}
+    ${[Object.create({})]}       | ${false}
+    ${[!'']}                     | ${false}
+    ${[true]}                    | ${false}
+    ${[Boolean()]}               | ${false}
+    ${[new Boolean()]}           | ${false}
+    ${[true]}                    | ${false}
+    ${new Set()}                 | ${false}
+    ${new Map()}                 | ${false}
+    ${Symbol()}                  | ${false}
+    ${/$/}                       | ${true}
+    ${new RegExp(/^$/)}          | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => {
+    expect(isRegExp(arg)).toBe(expected)
+    expect(is.regExp(arg)).toBe(expected)
+  })
 })
 
-describe('isError', () => {
+describe('is.error | isError', () => {
   test.each`
-    arg             | expected
-    ${null}         | ${false}
-    ${false}        | ${false}
-    ${undefined}    | ${false}
-    ${'string'}     | ${false}
-    ${''}           | ${false}
-    ${'01/01/1900'} | ${false}
-    ${12345}        | ${false}
-    ${-12345}       | ${false}
-    ${Infinity}     | ${false}
-    ${-Infinity}    | ${false}
-    ${NaN}          | ${false}
-    ${[]}           | ${false}
-    ${['x']}        | ${false}
-    ${{}}           | ${false}
-    ${{ x: 'x' }}   | ${false}
-    ${new Error()}  | ${true}
-  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isError(arg)).toBe(expected))
+    arg                          | expected
+    ${null}                      | ${false}
+    ${undefined}                 | ${false}
+    ${false}                     | ${false}
+    ${Boolean()}                 | ${false}
+    ${new Boolean()}             | ${false}
+    ${''}                        | ${false}
+    ${'string'}                  | ${false}
+    ${'a1'}                      | ${false}
+    ${'@plop'}                   | ${false}
+    ${'kikoo@plop'}              | ${false}
+    ${'john@doe.io'}             | ${false}
+    ${'plop.io'}                 | ${false}
+    ${'ftp://plop.io'}           | ${false}
+    ${'http://plop.io'}          | ${false}
+    ${'https://plop.io'}         | ${false}
+    ${'0'}                       | ${false}
+    ${'1'}                       | ${false}
+    ${'01'}                      | ${false}
+    ${String('')}                | ${false}
+    ${new String('')}            | ${false}
+    ${3}                         | ${false}
+    ${-1}                        | ${false}
+    ${Infinity}                  | ${false}
+    ${-Infinity}                 | ${false}
+    ${NaN}                       | ${false}
+    ${Number(1)}                 | ${false}
+    ${new Number(1)}             | ${false}
+    ${1n}                        | ${false}
+    ${{}}                        | ${false}
+    ${{ x: 1 }}                  | ${false}
+    ${Object.create({})}         | ${false}
+    ${[]}                        | ${false}
+    ${['x']}                     | ${false}
+    ${[String('')]}              | ${false}
+    ${[new String('')]}          | ${false}
+    ${[1, null]}                 | ${false}
+    ${[1, NaN]}                  | ${false}
+    ${[Infinity, NaN]}           | ${false}
+    ${[Infinity, Number(1)]}     | ${false}
+    ${[Infinity, new Number(1)]} | ${false}
+    ${[1, 2, 3]}                 | ${false}
+    ${[{}]}                      | ${false}
+    ${[Object.create({})]}       | ${false}
+    ${[!'']}                     | ${false}
+    ${[true]}                    | ${false}
+    ${[Boolean()]}               | ${false}
+    ${[new Boolean()]}           | ${false}
+    ${[true]}                    | ${false}
+    ${new Set()}                 | ${false}
+    ${new Map()}                 | ${false}
+    ${Symbol()}                  | ${false}
+    ${new Error()}               | ${true}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => {
+    expect(isError(arg)).toBe(expected)
+    expect(is.error(arg)).toBe(expected)
+  })
 })
 
-describe('isFalsy', () => {
+describe('is.falsy | isFalsy', () => {
   test.each`
-    arg             | expected
-    ${'string'}     | ${false}
-    ${''}           | ${true}
-    ${'01/01/1900'} | ${false}
-    ${12346}        | ${false}
-    ${12345}        | ${false}
-    ${-12345}       | ${false}
-    ${Infinity}     | ${false}
-    ${-Infinity}    | ${false}
-    ${[]}           | ${false}
-    ${['x']}        | ${false}
-    ${{}}           | ${false}
-    ${{ x: 'x' }}   | ${false}
-    ${NaN}          | ${true}
-    ${null}         | ${true}
-    ${false}        | ${true}
-    ${undefined}    | ${true}
-  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isFalsy(arg)).toBe(expected))
+    arg                          | expected
+    ${null}                      | ${true}
+    ${undefined}                 | ${true}
+    ${false}                     | ${true}
+    ${Boolean()}                 | ${true}
+    ${new Boolean()}             | ${false}
+    ${''}                        | ${true}
+    ${'string'}                  | ${false}
+    ${'a1'}                      | ${false}
+    ${'@plop'}                   | ${false}
+    ${'kikoo@plop'}              | ${false}
+    ${'john@doe.io'}             | ${false}
+    ${'plop.io'}                 | ${false}
+    ${'ftp://plop.io'}           | ${false}
+    ${'http://plop.io'}          | ${false}
+    ${'https://plop.io'}         | ${false}
+    ${'0'}                       | ${false}
+    ${'1'}                       | ${false}
+    ${'01'}                      | ${false}
+    ${String('')}                | ${true}
+    ${new String('')}            | ${false}
+    ${3}                         | ${false}
+    ${-1}                        | ${false}
+    ${Infinity}                  | ${false}
+    ${-Infinity}                 | ${false}
+    ${NaN}                       | ${true}
+    ${Number(1)}                 | ${false}
+    ${new Number(1)}             | ${false}
+    ${1n}                        | ${false}
+    ${{}}                        | ${false}
+    ${{ x: 1 }}                  | ${false}
+    ${Object.create({})}         | ${false}
+    ${[]}                        | ${false}
+    ${['x']}                     | ${false}
+    ${[String('')]}              | ${false}
+    ${[new String('')]}          | ${false}
+    ${[1, null]}                 | ${false}
+    ${[1, NaN]}                  | ${false}
+    ${[Infinity, NaN]}           | ${false}
+    ${[Infinity, Number(1)]}     | ${false}
+    ${[Infinity, new Number(1)]} | ${false}
+    ${[1, 2, 3]}                 | ${false}
+    ${[{}]}                      | ${false}
+    ${[Object.create({})]}       | ${false}
+    ${[!'']}                     | ${false}
+    ${[true]}                    | ${false}
+    ${[Boolean()]}               | ${false}
+    ${[new Boolean()]}           | ${false}
+    ${[true]}                    | ${false}
+    ${new Set()}                 | ${false}
+    ${new Map()}                 | ${false}
+    ${Symbol()}                  | ${false}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => {
+    expect(isFalsy(arg)).toBe(expected)
+    expect(is.falsy(arg)).toBe(expected)
+  })
 })
 
-describe('isTruthy', () => {
+describe('is.truthy | isTruthy', () => {
   test.each`
-    arg             | expected
-    ${null}         | ${false}
-    ${false}        | ${false}
-    ${undefined}    | ${false}
-    ${'string'}     | ${false}
-    ${''}           | ${false}
-    ${'01/01/1900'} | ${false}
-    ${12346}        | ${false}
-    ${12345}        | ${false}
-    ${-12345}       | ${false}
-    ${Infinity}     | ${false}
-    ${-Infinity}    | ${false}
-    ${NaN}          | ${false}
-    ${[]}           | ${false}
-    ${['x']}        | ${false}
-    ${{}}           | ${false}
-    ${{ x: 'x' }}   | ${false}
-    ${NaN}          | ${false}
-    ${null}         | ${false}
-    ${false}        | ${false}
-    ${undefined}    | ${false}
-    ${true}         | ${true}
-  `(`With "$arg" -> $expected`, ({ arg, expected }) => expect(isTruthy(arg)).toBe(expected))
+    arg                          | expected
+    ${null}                      | ${false}
+    ${undefined}                 | ${false}
+    ${true}                      | ${true}
+    ${Boolean()}                 | ${false}
+    ${new Boolean()}             | ${false}
+    ${''}                        | ${false}
+    ${'string'}                  | ${false}
+    ${'a1'}                      | ${false}
+    ${'@plop'}                   | ${false}
+    ${'kikoo@plop'}              | ${false}
+    ${'john@doe.io'}             | ${false}
+    ${'plop.io'}                 | ${false}
+    ${'ftp://plop.io'}           | ${false}
+    ${'http://plop.io'}          | ${false}
+    ${'https://plop.io'}         | ${false}
+    ${'0'}                       | ${false}
+    ${'1'}                       | ${false}
+    ${'01'}                      | ${false}
+    ${String('')}                | ${false}
+    ${new String('')}            | ${false}
+    ${3}                         | ${false}
+    ${-1}                        | ${false}
+    ${Infinity}                  | ${false}
+    ${-Infinity}                 | ${false}
+    ${NaN}                       | ${false}
+    ${Number(1)}                 | ${false}
+    ${new Number(1)}             | ${false}
+    ${1n}                        | ${false}
+    ${{}}                        | ${false}
+    ${{ x: 1 }}                  | ${false}
+    ${Object.create({})}         | ${false}
+    ${[]}                        | ${false}
+    ${['x']}                     | ${false}
+    ${[String('')]}              | ${false}
+    ${[new String('')]}          | ${false}
+    ${[1, null]}                 | ${false}
+    ${[1, NaN]}                  | ${false}
+    ${[Infinity, NaN]}           | ${false}
+    ${[Infinity, Number(1)]}     | ${false}
+    ${[Infinity, new Number(1)]} | ${false}
+    ${[1, 2, 3]}                 | ${false}
+    ${[{}]}                      | ${false}
+    ${[Object.create({})]}       | ${false}
+    ${[!'']}                     | ${false}
+    ${[true]}                    | ${false}
+    ${[Boolean()]}               | ${false}
+    ${[new Boolean()]}           | ${false}
+    ${[true]}                    | ${false}
+    ${new Set()}                 | ${false}
+    ${new Map()}                 | ${false}
+    ${Symbol()}                  | ${false}
+  `(`With "$arg" -> $expected`, ({ arg, expected }) => {
+    expect(isTruthy(arg)).toBe(expected)
+    expect(is.truthy(arg)).toBe(expected)
+  })
 })

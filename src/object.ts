@@ -1,9 +1,11 @@
 import { isArray } from './array'
-import { isNull, isUndefined } from './primitive'
+import { isNull } from './primitive'
 import { getType } from './utils'
 
 export const isObject = <T>(arg: T) => getType(arg) === 'object' && !isNull(arg) && !isArray(arg as T[])
 
 export const isObjectOrNull = <T>(arg: T) => isObject(arg) || isNull(arg)
 
-export const isObjectNotEmpty = <T>(arg: T) => isObject(arg) && !isUndefined(arg) && Object.keys(arg as object).length > 0
+export const isObjectEmpty = <T>(arg: T) => isObject(arg) && Object.keys(arg as object).length === 0
+
+export const isObjectNotEmpty = <T>(arg: T) => isObject(arg) && Object.keys(arg as object).length > 0

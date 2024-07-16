@@ -17,4 +17,6 @@ export const isArrayOfObjects = <T>(arg: T[]) => isArrayNotEmpty(arg) && arg.eve
 
 export const isArrayOfBooleans = <T>(arg: T[]) => isArrayNotEmpty(arg) && arg.every((item: unknown) => isBoolean(item))
 
+export const isArrayEmpty = <T>(arg: T[]) => isArray(arg) && arg.length === 0
+
 export const isArrayNotEmpty = <T>(arg: T[]) => isArray(arg) && arg.length > 0
