@@ -68,140 +68,16 @@ import {
   isIos
 } from './platform'
 import { isChrome, isFirefox, isOpera, isOperaMini, isSafari, isEdge, isIe } from './browser'
-
-export type MethodNoParam = (arg: unknown) => boolean
-export type MethodOneParam = ((arg: unknown) => boolean) | ((arg: unknown[]) => boolean)
-export type MethodTwoParams = ((arg: unknown, arg2: unknown) => boolean) | ((arg: unknown[]) => boolean)
-export type MethodThreeParams =
-  | ((arg: unknown, arg2: unknown, arg3: unknown) => boolean)
-  | ((arg: unknown[]) => boolean)
-
-// ==== Fluent methods types ====
-
-export type ArrayMethods = {
-  (arg: unknown[]): boolean
-  number: MethodOneParam
-  string: MethodOneParam
-  object: MethodOneParam
-  boolean: MethodOneParam
-  empty: MethodOneParam
-  notEmpty: MethodOneParam
-  orNull: MethodOneParam
-}
-
-export type NumberMethods = {
-  (arg: unknown): boolean
-  positive: MethodOneParam
-  negative: MethodOneParam
-  infinite: MethodOneParam
-  orNull: MethodOneParam
-  decimal: MethodOneParam
-  greaterThan: MethodTwoParams
-  greaterEqualThan: MethodTwoParams
-  lessThan: MethodTwoParams
-  lessEqualThan: MethodTwoParams
-  between: MethodThreeParams
-  betweenEqual: MethodThreeParams
-}
-
-export type ObjectMethods = {
-  (arg: unknown): boolean
-  empty: MethodOneParam
-  notEmpty: MethodOneParam
-  orNull: MethodOneParam
-}
-
-export type BooleanMethods = {
-  (arg: unknown): boolean
-  orNull: MethodOneParam
-}
-
-export type StringMethods = {
-  (arg: unknown): boolean
-  orNull: MethodOneParam
-  empty: MethodOneParam
-  notEmpty: MethodOneParam
-  binary: MethodOneParam
-  alpha: MethodOneParam
-  numeric: MethodOneParam
-  alphanumeric: MethodOneParam
-  base64: MethodOneParam
-}
-
-export type FunctionMethods = {
-  (arg: unknown): boolean
-  async: MethodOneParam
-  generator: MethodOneParam
-}
-
-export type PromiseMethods = {
-  (arg: unknown): boolean
-  fullfilled: MethodOneParam
-  rejected: MethodOneParam
-  pending: MethodOneParam
-}
-
-export type IsMethods = {
-  array: ArrayMethods
-  number: NumberMethods
-  object: ObjectMethods
-  boolean: BooleanMethods
-  string: StringMethods
-  function: FunctionMethods
-  promise: PromiseMethods
-  map: MethodOneParam
-  set: MethodOneParam
-  odd: MethodOneParam
-  even: MethodOneParam
-  bigInt: MethodOneParam
-  null: MethodOneParam
-  undefined: MethodOneParam
-  symbol: MethodOneParam
-  primitive: MethodOneParam
-  email: MethodOneParam
-  url: MethodOneParam
-  ipv4: MethodOneParam
-  ipv6: MethodOneParam
-  ip: MethodOneParam
-  date: MethodOneParam
-  regExp: MethodOneParam
-  error: MethodOneParam
-  falsy: MethodOneParam
-  truthy: MethodOneParam
-  uuid: MethodOneParam
-  uuidv3: MethodOneParam
-  uuidv4: MethodOneParam
-  uuidv5: MethodOneParam
-  //
-  window: MethodNoParam
-  node: MethodNoParam
-  browser: MethodNoParam
-  jsDom: MethodNoParam
-  webWorker: MethodNoParam
-  bun: MethodNoParam
-  mac: MethodNoParam
-  linux: MethodNoParam
-  windows: MethodNoParam
-  //
-  ipad: MethodNoParam
-  iphone: MethodNoParam
-  ipod: MethodNoParam
-  android: MethodNoParam
-  androidPhone: MethodNoParam
-  androidTablet: MethodNoParam
-  mobile: MethodNoParam
-  tablet: MethodNoParam
-  desktop: MethodNoParam
-  ios: MethodNoParam
-  //
-  chrome: MethodNoParam
-  firefox: MethodNoParam
-  opera: MethodNoParam
-  operaMini: MethodNoParam
-  safari: MethodNoParam
-  edge: MethodNoParam
-  ie: MethodNoParam
-}
+import {
+  IsMethods,
+  ArrayMethods,
+  NumberMethods,
+  ObjectMethods,
+  BooleanMethods,
+  StringMethods,
+  FunctionMethods,
+  PromiseMethods
+} from './type'
 
 const is: IsMethods = {
   // ==== Fluent methods ====
