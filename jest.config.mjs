@@ -1,6 +1,6 @@
 const config = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   coveragePathIgnorePatterns: ['/node_modules/', '/dist/'],
