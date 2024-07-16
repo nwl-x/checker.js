@@ -1,28 +1,28 @@
-# checker-js
+# checker.js
 
 A set of boilerplate utilities for checking any type of values ​​without headaches or common mistakes
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nwl-x/checker-js/release.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/nwl-x/checker-js?logo=typescript)
-![GitHub License](https://img.shields.io/github/license/nwl-x/checker-js)
-![NPM Downloads](https://img.shields.io/npm/dw/%40nawael%2Fchecker-js?logo=npm)
-![NPM Version](https://img.shields.io/npm/v/%40nawael%2Fchecker-js)
-![npm bundle size](https://img.shields.io/bundlephobia/min/%40nawael%2Fchecker-js)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nwl-x/checker.js/release.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/nwl-x/checker.js?logo=typescript)
+![GitHub License](https://img.shields.io/github/license/nwl-x/checker.js)
+![NPM Downloads](https://img.shields.io/npm/dw/%40nawael%2Fchecker.js?logo=npm)
+![NPM Version](https://img.shields.io/npm/v/%40nawael%2Fchecker.js)
+![npm bundle size](https://img.shields.io/bundlephobia/min/%40nawael%2Fchecker.js)
 
-![Banner](https://raw.githubusercontent.com/nwl-x/checker-js/main/checker-banner.png)
+![Banner](https://raw.githubusercontent.com/nwl-x/checker.js/main/checker-banner.png)
 
 ## Installation
 
 #### With [npm](https://www.npmjs.com/)
 
 ```bash
-npm install @nawael/checker-js --save
+npm install @nawael/checker.js --save
 ```
 
 #### With [yarn](https://yarnpkg.com/)
 
 ```bash
-yarn add @nawael/checker-js --save
+yarn add @nawael/checker.js --save
 ```
 
 ## Integration
@@ -30,13 +30,13 @@ yarn add @nawael/checker-js --save
 #### For [CommonJS](https://nodejs.org/docs/latest/api/modules.html#modules-commonjs-modules)
 
 ```js
-const { isArray, isString, isNumber, ... } = require('@nawael/checker-js')
+const { isArray, isString, isNumber, ... } = require('@nawael/checker.js')
 ```
 
 #### For [ESM](https://nodejs.org/api/esm.html#esm_ecmascript_modules)
 
 ```js
-import { isArray, isString, isNumber, ... } from '@nawael/checker-js'
+import { isArray, isString, isNumber, ... } from '@nawael/checker.js'
 ```
 
 ## Usage
@@ -52,7 +52,7 @@ if (typeof arg === 'object') {
 }
 
 // use isObject
-import { isObject } from '@nawael/checker-js'
+import { isObject } from '@nawael/checker.js'
 
 isObject(arg)
 // ✅ true if arg = {}
@@ -69,7 +69,7 @@ if (typeof arg === 'number') {
 }
 
 // use isNumber
-import { isNumber } from '@nawael/checker-js'
+import { isNumber } from '@nawael/checker.js'
 
 isNumber(arg)
 // ✅ true if arg = 0 or arg = Infinity or -Infinity or
@@ -82,10 +82,10 @@ isNumber(arg)
 
 ```js
 // instead of importing all API (not recommended)
-import { isArray, isString, isNumber, ... } from '@nawael/checker-js'
+import { isArray, isString, isNumber, ... } from '@nawael/checker.js'
 
 // use "lazy" API and avoid boring imports
-import { is } from '@nawael/checker-js'
+import { is } from '@nawael/checker.js'
 
 is('array', arg) // isArray(arg)
 is('string', arg) // isString(arg)

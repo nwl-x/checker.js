@@ -1,4 +1,4 @@
-# @nawael/checker-js
+# @nawael/checker.js
 
 ## 1.2.0
 

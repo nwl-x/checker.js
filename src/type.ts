@@ -13,7 +13,6 @@ export declare const getType: (arg: unknown) => string
 export declare const hasToStringTag: (arg: unknown) => arg is {
   [Symbol.toStringTag]: string
 }
-export declare const is: <T>(type: string, arg: T) => boolean
 export declare const isNode: string | false
 export declare const isBrowser: boolean
 export declare const isBoolean: <T>(arg: T) => boolean
