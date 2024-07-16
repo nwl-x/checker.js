@@ -54,7 +54,7 @@ import {
   isBase64
 } from './string'
 import { isUUID, isUUIDv3, isUUIDv4, isUUIDv5 } from './uuid'
-import is from './is'
+import { is } from './is'
 import { isWindow, isNode, isBrowser, isJsDom, isWebWorker, isBun, isMac, isLinux, isWindows } from './environment'
 import {
   isIpad,
